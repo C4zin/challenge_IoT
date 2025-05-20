@@ -9,69 +9,96 @@
 
     RM558576 - Leonardo Bianchi
 
+🚀 Projeto MotoTrack: Visão Computacional para Gestão de Frotas
+📌 Tema
+O tema deste projeto é “Visão Computacional para Gestão de Frotas de Motos”, com foco na empresa fictícia MotoTrack, especializada na locação e manutenção de motocicletas para serviços de entrega.
 
+❗ Problema
+A MotoTrack possui diversos pátios de armazenamento de motos em diferentes regiões da cidade. Atualmente, a gestão da frota é feita de forma manual, o que gera alguns desafios:
 
-# 🏍️ Rastreamento Inteligente de Motos com RFID e Visão Computacional
+Falta de controle automatizado sobre a localização, estado e modelo das motos;
 
-## 📌 Problema
+Erros humanos durante a verificação de condições das motos (checklist);
 
-Empresas que trabalham com locação de motos, como a Mottu, enfrentam dificuldades para localizar veículos em ambientes fechados como depósitos e pátios. Tecnologias tradicionais como GPS apresentam baixa ou nenhuma precisão nesses ambientes, comprometendo a logística e a segurança.
+Tempo elevado na realização de auditorias nos pátios;
 
-## 🎯 Solução Proposta
+Risco de inconsistências entre o cadastro digital e a realidade física das motos.
 
-Desenvolvemos um sistema híbrido de rastreamento de motos utilizando **sensores RFID** e **visão computacional com IA** para oferecer:
+💡 Alternativas de Solução
+Sistema baseado em planilhas e QR Code: baixo custo, mas ainda dependente de operação humana.
 
-- Localização precisa das motos 
-- Automação do monitoramento de entradas e saídas no pátio
-- Baixo custo de manutenção e escalabilidade
+RFID com sensores físicos: eficiente, porém exige infraestrutura física cara.
 
----
+Visão Computacional com Inteligência Artificial (IA): alternativa escalável e automatizada para identificação de motos e análise da frota — solução escolhida neste projeto.
 
-## 🧠 Frameworks, Bibliotecas e Algoritmos
+🛠️ Bibliotecas e Frameworks Python Utilizados
+Biblioteca	Uso Principal
+pandas	Manipulação de dados tabulares (criação, leitura e tratamento de dataset).
+scikit-learn	Pré-processamento dos dados e particionamento em treino/teste.
+xgboost	Algoritmo de aprendizado de máquina para classificação precisa dos modelos de moto.
+matplotlib + seaborn	Visualização de resultados e geração da matriz de confusão.
+opencv-python	(Futuramente) integração com imagens reais das motos para análise visual.
 
-### 🔧 Tecnologias Utilizadas
+🧠 Arquitetura de IA
+Algoritmo Escolhido: XGBoost Classifier
+O XGBoost (Extreme Gradient Boosting) é um dos algoritmos de aprendizado supervisionado mais eficazes para tarefas de classificação multiclasse, como no nosso caso (identificar o modelo da moto com base em informações do pátio e condição da moto).
 
-| Tecnologia       | Uso Principal                                   |
-|------------------|--------------------------------------------------|
-| **Python**       | Linguagem base para scripts e backend           |
-| **Flask / FastAPI** | Criação de API REST para consulta e registro de localização |
-| **OpenCV**       | Processamento de imagens da visão computacional |
-| **YOLOv5**       | Detecção de motos via câmera                    |
-| **PySerial**     | Comunicação com sensores RFID via Arduino       |
-| **Pandas**       | Manipulação e análise de dados registrados      |
+Motivos da Escolha:
+Alta performance em datasets estruturados;
 
----
+Robusto contra overfitting;
 
-### 📈 Técnicas e Algoritmos
+Otimizações internas que aumentam a velocidade e precisão.
 
-- **RFID Passivo e Ativo**  
-  Leitores distribuídos pelo pátio detectam etiquetas nas motos e enviam informações via serial para o sistema central.
+Implementação:
+Pré-processamento:
 
-- **YOLOv5 (You Only Look Once)**  
-  Algoritmo de detecção de objetos usado para identificar motos em tempo real em imagens/vídeos.
+LabelEncoder para transformar atributos categóricos (condição, pátio, modelo) em numéricos.
 
-- **Sistema Híbrido**  
-  A IA por imagem valida visualmente as posições fornecidas pelos leitores RFID, criando uma redundância inteligente.
+Separação do dataset em X (features) e y (target).
 
----
+Divisão entre train (70%) e test (30%).
 
-## 🏗️ Arquitetura do Sistema
+Treinamento do Modelo:
 
-```plaintext
-                    +-----------------------------+
-                    |       Interface Web/API     |
-                    |     (Flask ou FastAPI)      |
-                    +-------------+---------------+
-                                  |
-               +------------------v-------------------+
-               |          Controlador Central          |
-               |       Processamento em Python         |
-               +--------+----------------+-------------+
-                        |                |
-         +--------------v--+         +---v-----------------+
-         | Leitor RFID       |       | Câmera com YOLOv5   |
-         | (Arduino + Tag)   |       | (Visão Computacional)|
-         +-------------------+       +----------------------+
+Modelo treinado com parâmetros otimizados (max_depth, n_estimators, learning_rate).
 
-                            ↓
-                      Banco de Dados
+Avaliação:
+
+Métrica de acurácia e matriz de confusão para avaliação do desempenho do modelo.
+
+📊 Base de Dados
+A base de dados foi simulada com lógica realista baseada nos padrões de operação da empresa:
+
+5.000 registros gerados, cada um representando uma moto com:
+
+Número de identificação (Bluetooth ID)
+
+Modelo da moto (Mottu Sport, Mottu E, Mottu Pop)
+
+Condição da moto (Nova, Usada, Manutenção)
+
+Localização (Unidade Belém, Tatuapé, Santo Amaro, etc.)
+
+O arquivo final do dataset é salvo como:
+📁 motos_dataset.csv
+
+📷 Próximos Passos
+Implementar integração com vídeos/imagens reais utilizando OpenCV e YOLOv5 para detecção visual das motos no pátio.
+
+Automatizar identificação de placas ou QR codes para controle de entrada/saída das motos.
+
+Implementar dashboard em Flask para visualização dos dados em tempo real.
+
+📁 Estrutura do Projeto
+bash
+Copiar
+Editar
+MotoTrack/
+│
+├── motos_dataset.csv                # Base de dados simulada
+├── gerar_dataset.py                # Script para criação do dataset
+├── treino_modelo.py                # Script com treino do XGBoost
+├── avaliacao_modelo.py             # Script da matriz de confusão
+├── README.md                       # Este arquivo
+└── imagens/                        # Logos e gráficos gerados
