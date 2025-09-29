@@ -1,5 +1,7 @@
 # 🏍️ MotoTrack Vision — Gestão Inteligente de Frotas
 
+# É necessário o navegador Google Chrome para que o projeto funcione 100%
+
 ## 👥 Integrantes  
 - **RM558317** - Cauã Sanches de Santana  
 - **RM556511** - Angello Turano da Costa  
